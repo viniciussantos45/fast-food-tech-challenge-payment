@@ -1,0 +1,37 @@
+services:
+  app:
+    depends_on:
+      mongo:
+        condition: service_healthy
+    container_name: fastify_container
+    environment:
+      DATABASE_URL: mongodb://fast-food:strongpassword@mongo:27017/fast-food
+    build: .
+    ports:
+      - 3000:3000
+
+  mongo:
+    build:
+      context: ./mongodb_rs
+      args:
+        MONGO_VERSION: 6
+    container_name: mongo_container
+    environment:
+      MONGO_REPLICA_HOST: localhost
+      MONGO_REPLICA_PORT: 27017
+      MONGO_INITDB_ROOT_USERNAME: fast-food
+      MONGO_INITDB_ROOT_PASSWORD: strongpassword
+      MONGO_COMMAND: 'mongosh'
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ['CMD-SHELL', 'mongo --username fast-food --password strongpassword --eval ''db.adminCommand("ping")''']
+      interval: 3s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mongo_data:
+    driver: local
