@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify'
 
-import { preparationRoutes } from './PreparationRoutes'
+import { paymentRoutes } from './PaymentRoute'
 
 export const registerRoutes = (fastify: FastifyInstance): void => {
-  preparationRoutes(fastify)
+  paymentRoutes(fastify)
 }
