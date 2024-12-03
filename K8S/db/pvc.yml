@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgres-pvc
+  name: mongo-payment-pvc
 spec:
-  storageClassName: pg-storage
+  storageClassName: mongo-payment-storage
   accessModes:
     - ReadWriteOnce
   resources:
